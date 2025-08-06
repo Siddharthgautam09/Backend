@@ -19,7 +19,7 @@ const userSchema = new Schema({
         lowercase:true,
         trim:true,
     },
-    fullname:{
+    fullName:{
         type:String,
         required:true,
         unique:true,
@@ -63,6 +63,30 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password);
 }
 
-
+userSchema.methods.getAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            username: this.username,
+            email: this.email,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "1d"
+        }
+    );
+}
+userSchema.methods.getRefreshToken = function(){
+   return jwt.sign(
+        {
+            _id: this._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY || "7d"
+        }
+    );
+}
 
 export const User = mongoose.model("User",userSchema)
