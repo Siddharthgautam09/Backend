@@ -1,13 +1,14 @@
 //require('dotenv').config({path: './env'})
 import dotenv from "dotenv"
 import connectDB from "./db/index.js"
+import mongoose from "mongoose"
 dotenv.config({
     path:'/.env'
 })
 
-// import express from "express"
+import express from "express"
 
-// const app=express()
+const app=express()
 
 // ;(async () => {
 //     try {
@@ -17,13 +18,13 @@ dotenv.config({
 //             throw(error)
 //         })
 
-//         app.listen(pprocess.env.PORT,()=>{
+//         app.listen(process.env.PORT,()=>{
 //             console.log(`App is Listening on Port ${process.env.PORT}`);
             
 //         })
 //     } catch (error) {
 //         console.error("ERROR",error)
-//         throw err
+//         throw error;
 //     }
 // } )()
 
@@ -36,7 +37,7 @@ connectDB()
     }
     )
     app.listen(process.env.PORT || 8000, ()=>{
-        console.log(`Server is running on Port ${process.env.PORT}`)
+        console.log(`Server is running on Port: ${process.env.PORT}`)
     } )
 })
 .catch((error)=>{
